@@ -62,18 +62,6 @@ public class JedisConfig{
      */
     private boolean testOnBorrow;
 
-//    public JedisConfig(){
-//        PropertiesUtil propertiesUtil = new PropertiesUtil(PropertiesConfig.redisProperties);
-//        this.addr = propertiesUtil.getPropery("redis.addr");
-//        this.port = Integer.parseInt(propertiesUtil.getPropery("redis.port"));
-//        this.auth = propertiesUtil.getPropery("redis.auth");
-//        this.maxIdle = Integer.parseInt(propertiesUtil.getPropery("redis.maxIdle"));
-//        this.maxActive = Integer.parseInt(propertiesUtil.getPropery("redis.maxActive"));
-//        this.maxWait = Integer.parseInt(propertiesUtil.getPropery("redis.maxWait"));
-//        this.timeOut = Integer.parseInt(propertiesUtil.getPropery("redis.timeOut"));
-//        this.testOnBorrow = Boolean.parseBoolean(propertiesUtil.getPropery("redis.testOnBorrow"));
-//    }
-
     public void setConfig(){
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxTotal(maxActive);
