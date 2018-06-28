@@ -18,4 +18,13 @@ public class DocApi{
             e.printStackTrace();
         }
     }
+
+    public static void main(String[] args){
+//        String s = "123";
+//        String s2 = "123";
+//        String s0 = new String("123");
+        String s1 = new String("123");
+//        s0 = s0.intern();
+        System.out.println("123" == s1.intern());
+    }
 }

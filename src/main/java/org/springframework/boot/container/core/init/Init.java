@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.container.core.configs.JedisConfig;
-import org.springframework.boot.container.core.configs.PoleConfig;
 import org.springframework.boot.container.core.configs.StartUpConfig;
-import org.springframework.boot.container.core.service.Db1Service;
-import org.springframework.boot.container.core.service.impl.BaseServiceImpl;
 import org.springframework.boot.container.core.service.impl.Db1ServiceImpl;
 import org.springframework.boot.container.core.service.impl.Db2ServiceImpl;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,9 +26,6 @@ public class Init implements ApplicationRunner{
 
     @Autowired
     private Db2ServiceImpl db2ServiceImpl;
-
-    @Autowired
-    private PoleConfig poleConfig;
 
     @Autowired
     private JedisConfig jedisConfig;
