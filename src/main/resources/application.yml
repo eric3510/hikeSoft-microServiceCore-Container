@@ -1,0 +1,131 @@
+micro:
+  server:
+    name: baseServer
+    db-name: base_server_test1
+  db:
+    driver-class-name: com.mysql.jdbc.Driver
+    platform: mysql
+
+spring:
+  application:
+    name: ${micro.server.name}
+  datasource:
+    db1:
+      driver-class-name: ${micro.db.driver-class-name}
+      platform: ${micro.db.platform}
+    #db2数据库一般为只读库
+    db2:
+      driver-class-name: ${micro.db.driver-class-name}
+      platform: ${micro.db.platform}
+  mvc:
+    static-path-pattern: /api/**
+
+server:
+  port: 8080
+  context-path: /
+  tomcat:
+    uri-encoding: utf-8
+    accesslog:
+      enabled: true
+      directory :
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+
+start-up-config:
+  mysql: true
+  redis: false
+
+redis-config:
+  host: localhost
+  port: 6379
+  auth:
+  maxActive: 200
+  maxIdle: 32
+  maxWait: 10000
+  timeOut: 10000
+  testOnBorrow: false
+
+---
+spring:
+  profiles: local
+  datasource:
+    db1:
+      url: jdbc:mysql://47.95.148.210:3306/${micro.server.db-name}?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=true
+      username: root
+      password: Root-123
+    db2:
+      url: jdbc:mysql://192.168.1.100:3306/icu_test?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=true&serverTimezone=Asia/Shanghai
+      username: test
+      password: 123456
+  resources:
+    static-locations: file:${basedir}/polestatic/api/
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server2:9002/eureka/,http://eureka-server1:9001/eureka/
+---
+spring:
+  profiles: develop
+  datasource:
+    db1:
+      url: jdbc:mysql://47.95.148.210:3306/${micro.server.db-name}?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=true
+      username: root
+      password: Root-123
+    db2:
+      url: jdbc:mysql://192.168.1.100:3306/icu_test?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=true&serverTimezone=Asia/Shanghai
+      username: test
+      password: 123456
+  resources:
+    static-locations: file:/mnt/MicroServiceCluster/${spring.profiles}/questionServer/instances/server1/polestatic/
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server2:9002/eureka/,http://eureka-server1:9001/eureka/
+---
+spring:
+  profiles: test
+  datasource:
+    db1:
+      url: jdbc:mysql://47.95.148.210:3306/${micro.server.db-name}?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=true
+      username: root
+      password: Root-123
+    db2:
+      url: jdbc:mysql://192.168.1.100:3306/icu_test?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=true&serverTimezone=Asia/Shanghai
+      username: test
+      password: 123456
+  resources:
+    static-locations: file:/mnt/MicroServiceCluster/${spring.profiles}/questionServer/instances/server1/polestatic/
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server2:9002/eureka/,http://eureka-server1:9001/eureka/
+---
+spring:
+  profiles: online
+  datasource:
+    db1:
+      url: jdbc:mysql://47.95.148.210:3306/${micro.server.db-name}?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=true
+      username: root
+      password: Root-123
+    db2:
+      url: jdbc:mysql://10.30.56.228:3309/icu?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;useSSL=true
+      username: icu
+      password: qweasdzxc~!@#
+  resources:
+    static-locations: file:/mnt/MicroServiceCluster/${spring.profiles}/questionServer/instances/server1/polestatic/
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server2:9002/eureka/,http://eureka-server1:9001/eureka/
+---
