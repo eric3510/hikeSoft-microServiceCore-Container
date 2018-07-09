@@ -108,6 +108,11 @@ public abstract class BaseApplication{
         return BaseUtils.StringUtilsSon.addMarkToString(serverName, UNDERLINE);
     }
 
+    public String getDbName(){
+        return this.getDbName(this.getServerName());
+    }
+
+
     /***
      * 启动服务, 命令行参数级别最高(参数样例 --server.port=9999)
      * @param source 启动源
@@ -202,7 +207,7 @@ public abstract class BaseApplication{
      * @return
      */
     private String getDbNameConfig(){
-        return PREFIX + DB_NAME + EQUAL_SING + this.getDbName(this.getServerName());
+        return PREFIX + DB_NAME + EQUAL_SING + this.getDbName();
     }
 
     public void paramToMap(String param, Map<String, String> paramMap){

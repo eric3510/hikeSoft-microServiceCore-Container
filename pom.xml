@@ -6,7 +6,7 @@
 
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-container</artifactId>
-    <version>core-container-0.0.1</version>
+    <version>core-container-0.0.3-SNAPSHOT</version>
     <build>
         <plugins>
             <plugin>
@@ -156,9 +156,9 @@
     </repositories>
 
     <distributionManagement>
-        <repository>
+        <snapshotRepository>
             <id>1</id>
-            <url>http://nexus.hushijie.com.cn/nexus/content/repositories/1/</url>
-        </repository>
+            <url>http://nexus.hushijie.com.cn/nexus/content/repositories/1</url>
+        </snapshotRepository>
     </distributionManagement>
 </project>

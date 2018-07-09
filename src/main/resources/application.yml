@@ -70,7 +70,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eureka-server2:9002/eureka/,http://eureka-server1:9001/eureka/
+      defaultZone: http://dataplane.hushijie.com.cn:9002/eureka/,http://dataplane.hushijie.com.cn:9001/eureka/
 ---
 spring:
   profiles: develop
@@ -89,7 +89,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eureka-server2:9002/eureka/,http://eureka-server1:9001/eureka/
+      defaultZone: http://dataplane.hushijie.com.cn:9002/eureka/,http://dataplane.hushijie.com.cn:9001/eureka/
 ---
 spring:
   profiles: test
@@ -108,7 +108,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eureka-server2:9002/eureka/,http://eureka-server1:9001/eureka/
+      defaultZone: http://dataplane.hushijie.com.cn:9002/eureka/,http://dataplane.hushijie.com.cn:9001/eureka/
 ---
 spring:
   profiles: online
@@ -127,5 +127,5 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eureka-server2:9002/eureka/,http://eureka-server1:9001/eureka/
+      defaultZone: http://http://dataplane.hushijie.com.cn:9002/eureka/,http://dataplane.hushijie.com.cn:9002/eureka/
 ---
