@@ -1,3 +1,4 @@
 .idea
 spring-boot-container.iml
 logs
+application.yml
