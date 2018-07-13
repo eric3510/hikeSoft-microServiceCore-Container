@@ -6,6 +6,8 @@ package org.springframework.boot.container.core.constant;
  * Constant
  */
 public class Constant{
+    public static final String API_STATIC_FILE_RELATICE_PATH = "/polestatic/api/";
+
     /***
      * 业务操作结果
      */

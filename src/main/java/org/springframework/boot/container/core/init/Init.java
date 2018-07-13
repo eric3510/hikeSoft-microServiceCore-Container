@@ -55,6 +55,8 @@ public class Init implements ApplicationRunner{
 
         //创建api
         DocApi.createApi(System.getProperty("user.dir"));
+
+        logger.info("服务启动成功");
     }
 
     private void setMapper(){

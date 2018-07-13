@@ -1,6 +1,7 @@
 package org.springframework.boot.container.core.init;
 
-import com.alibaba.fastjson.JSONObject;
+
+import org.springframework.boot.container.core.constant.Constant;
 
 import java.io.*;
 
@@ -12,19 +13,10 @@ import java.io.*;
 public class DocApi{
     static public void createApi(String path){
         try{
-            String execStr = String.format("apidoc -i %s -o %s/polestatic/api/", path, path);
+            String execStr = String.format("apidoc -i %s -o %s" + Constant.API_STATIC_FILE_RELATICE_PATH, path, path);
             Process p = Runtime.getRuntime().exec(execStr);
         }catch(IOException e){
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args){
-//        String s = "123";
-//        String s2 = "123";
-//        String s0 = new String("123");
-        String s1 = new String("123");
-//        s0 = s0.intern();
-        System.out.println("123" == s1.intern());
     }
 }

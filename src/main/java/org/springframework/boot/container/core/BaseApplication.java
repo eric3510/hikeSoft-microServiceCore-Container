@@ -2,6 +2,7 @@ package org.springframework.boot.container.core;
 
 import lombok.Data;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.container.core.constant.Constant;
 import org.springframework.boot.container.core.utils.BaseUtils;
 
 import java.util.*;
@@ -30,11 +31,6 @@ public abstract class BaseApplication{
      */
     private final static String SERVER_NAME = "micro.server.name";
 
-    /**
-     * 数据库名称
-     */
-    private final static String DB_NAME = "micro.server.db-name";
-
     /***
      * 端口
      */
@@ -43,10 +39,20 @@ public abstract class BaseApplication{
     /***
      * 选择启动的参数，当没有传入时默认
      */
-    private final static String SPRING_PROFILES_ACTIVE = "spring.profiles.active";
+    public final static String SPRING_PROFILES_ACTIVE = "spring.profiles.active";
 
     /***
-     * 命令前缀
+     * api静态文件路径key
+     */
+    private final static String API_PATH = "micro.api-path";
+
+    /***
+     * 中划线
+     */
+    private final static String AMONG_LINE = "-";
+
+    /***
+     * 前缀
      */
     private final static String PREFIX = "--";
 
@@ -56,34 +62,24 @@ public abstract class BaseApplication{
     private final static String EQUAL_SING = "=";
 
     /***
-     * 中划线
-     */
-    private final static String  AMONG_LINE = "-";
-
-    /***
-     * 下划线
-     */
-    private final static String UNDERLINE =  "_";
-
-    /***
      * 本地环境
      */
-    private final static String PREFILES_LOCAL = "local";
+    public final static String PREFILES_LOCAL = "local";
 
     /***
      * 测试环境
      */
-    private final static String PREFILES_TEST = "test";
+    public final static String PREFILES_TEST = "test";
 
     /***
      * 开发环境
      */
-    private final static String PREFILES_DEVELOP = "develop";
+    public final static String PREFILES_DEVELOP = "develop";
 
     /***
      * 线上环境
      */
-    private final static String PREFILES_ONLINE = "online";
+    public final static String PREFILES_ONLINE = "online";
 
     /***
      * 获取服务名称
@@ -99,18 +95,7 @@ public abstract class BaseApplication{
         return BaseUtils.StringUtilsSon.addMarkToString(this.getServerName(), AMONG_LINE);
     }
 
-    /**
-     * 根据服务名称获取数据库名称
-     * @param serverName 服务名称
-     * @return
-     */
-    public String getDbName(String serverName){
-        return BaseUtils.StringUtilsSon.addMarkToString(serverName, UNDERLINE);
-    }
 
-    public String getDbName(){
-        return this.getDbName(this.getServerName());
-    }
 
 
     /***
@@ -135,8 +120,13 @@ public abstract class BaseApplication{
         //过滤需要处理的启动参数
         this.filter(argsMap);
 
-        Iterator<Map.Entry<String, String>> iterator = argsMap.entrySet().iterator();
         List<String> paramList = new ArrayList<>();
+        this.setParam(argsMap, paramList);
+        SpringApplication.run(source, paramList.toArray(new String[paramList.size()]));
+    }
+
+    public void setParam(Map<String, String> argsMap, List<String> paramList){
+        Iterator<Map.Entry<String, String>> iterator = argsMap.entrySet().iterator();
         while(iterator.hasNext()){
             Map.Entry<String, String> mapEntry = iterator.next();
             String key = mapEntry.getKey();
@@ -144,7 +134,6 @@ public abstract class BaseApplication{
             String param = PREFIX + key + EQUAL_SING + value;
             paramList.add(param);
         }
-        SpringApplication.run(source, paramList.toArray(new String[paramList.size()]));
     }
 
     /***
@@ -156,23 +145,22 @@ public abstract class BaseApplication{
         //装载配置
         startupParamList.add(this.getServerNameConfig());
         startupParamList.add(this.getServerPortConfig());
-        startupParamList.add(this.getDbNameConfig());
 
         return startupParamList.toArray(new String[startupParamList.size()]);
     }
 
     /***
-     * 过滤出需要处理的参数
+     * 过滤出需要处理的参数，以及一些默认参数
      * @param argsMap 启动参数集合
      */
     private void filter(TreeMap<String, String> argsMap){
         this.filterProfiles(argsMap);
+        this.setApiPath(argsMap);
     }
 
     /***
      * 处理环境参数(如果为local的话则判定为在本地运行，则测试环境以及开发环境不会请求这个服务实例)
      * @param argsMap argsMap
-     *
      */
     private List<String> filterProfiles(TreeMap<String, String> argsMap){
         List<String> list = new ArrayList<>();
@@ -202,14 +190,13 @@ public abstract class BaseApplication{
         return PREFIX + SERVER_PORT + EQUAL_SING + this.getPort();
     }
 
-    /***
-     * 获取db名称配置
-     * @return
-     */
-    private String getDbNameConfig(){
-        return PREFIX + DB_NAME + EQUAL_SING + this.getDbName();
-    }
 
+
+    /***
+     * 过滤出spring boot配置并装载到map
+     * @param param
+     * @param paramMap
+     */
     public void paramToMap(String param, Map<String, String> paramMap){
         //过滤出spring boot配置
         if(!param.contains(PREFIX)){
@@ -222,8 +209,62 @@ public abstract class BaseApplication{
         paramMap.put(paramSplit[0].replace(PREFIX, ""), paramSplit[1]);
     }
 
+    /***
+     * 生成本地启动的服务的名称
+     * @param treeMap reeMap
+     */
     private void putLocalServerName(TreeMap<String, String> treeMap){
         String microServerName = this.getMicroServerName();
         treeMap.put(SERVER_NAME, treeMap.get(SERVER_NAME).replace(microServerName, microServerName + AMONG_LINE + PREFILES_LOCAL));
     }
+
+    /***
+     * 装载api路径参数
+     * @param treeMap
+     */
+    private void setApiPath(TreeMap<String, String> treeMap){
+        treeMap.computeIfAbsent(API_PATH, k -> "file:" + BaseUtils.getBaseDir() + Constant.API_STATIC_FILE_RELATICE_PATH);
+    }
+
+    /***
+     * 在装载命令参数时优先命令参数
+     * @param commandParams 命令参数
+     * @param defaultParams 默认参数
+     * @return
+     */
+    public String[] setGetParam(String[] commandParams, String[] defaultParams){
+        Map<String, String> paramMap = new HashMap<>();
+        for(String param : commandParams){
+            paramToMap(param, paramMap);
+        }
+        for(String param : defaultParams){
+            String[] params = param.replace("--", "").split("=");
+            if(BaseUtils.isBlank(paramMap.get(params[0]))){
+                paramToMap(param, paramMap);
+            }
+        }
+        List<String> paramList = new ArrayList<>();
+        setParam(paramMap, paramList);
+        return paramList.toArray(new String[paramList.size()]);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

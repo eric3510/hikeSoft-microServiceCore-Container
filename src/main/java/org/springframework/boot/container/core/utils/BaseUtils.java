@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.util.ClassUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -2843,12 +2844,12 @@ public final class BaseUtils{
         }
     }
 
+    public static String getBaseDir(){
+        return System.getProperty("user.dir");
+    }
+
     public static void main(String[] args){
-        Date date = BaseUtils.DateUtils.stringTodate("yyyyMMdd", "20180921");
-        System.out.println(date);
-//        Integer[] longs = {2, 30, -11, 43, 13, 50};
-//        System.out.println(JSONArray.toJSONString(longs));
-//        Arrays.sort(longs);
-//        System.out.println(JSONArray.toJSONString(longs));
+        String path = BaseUtils.getBaseDir();
+        System.out.println(path);
     }
 }
