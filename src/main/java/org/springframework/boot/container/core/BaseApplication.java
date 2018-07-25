@@ -2,6 +2,7 @@ package org.springframework.boot.container.core;
 
 import lombok.Data;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.container.core.constant.Constant;
 import org.springframework.boot.container.core.utils.BaseUtils;
 
@@ -45,6 +46,11 @@ public abstract class BaseApplication{
      * api静态文件路径key
      */
     private final static String API_PATH = "micro.api-path";
+
+    /***
+     * access log 路径
+     */
+    private final static String ACCESS_PATH = "server.tomcat.accesslog.directory";
 
     /***
      * 中划线
@@ -95,15 +101,17 @@ public abstract class BaseApplication{
         return BaseUtils.StringUtilsSon.addMarkToString(this.getServerName(), AMONG_LINE);
     }
 
-
-
-
     /***
      * 启动服务, 命令行参数级别最高(参数样例 --server.port=9999)
      * @param source 启动源
      * @param args 启动参数
      */
     public void run(Object source, String... args){
+        List<String> paramList = this.baseRun(args);
+        SpringApplication.run(source, paramList.toArray(new String[paramList.size()]));
+    }
+
+    private List<String> baseRun(String... args){
         TreeMap<String, String> argsMap = new TreeMap<>();
 
         String[] params = this.getParams();
@@ -122,7 +130,12 @@ public abstract class BaseApplication{
 
         List<String> paramList = new ArrayList<>();
         this.setParam(argsMap, paramList);
-        SpringApplication.run(source, paramList.toArray(new String[paramList.size()]));
+        return paramList;
+    }
+
+    public void runZuul(Object source, String... args){
+        List<String> paramList = this.baseRun(args);
+        new SpringApplicationBuilder(source).web(true).run(paramList.toArray(new String[paramList.size()]));
     }
 
     public void setParam(Map<String, String> argsMap, List<String> paramList){
@@ -156,6 +169,7 @@ public abstract class BaseApplication{
     private void filter(TreeMap<String, String> argsMap){
         this.filterProfiles(argsMap);
         this.setApiPath(argsMap);
+        this.setAccessLogPath(argsMap);
     }
 
     /***
@@ -226,6 +240,10 @@ public abstract class BaseApplication{
         treeMap.computeIfAbsent(API_PATH, k -> "file:" + BaseUtils.getBaseDir() + Constant.API_STATIC_FILE_RELATICE_PATH);
     }
 
+    private void setAccessLogPath(TreeMap<String, String> treeMap){
+        treeMap.computeIfAbsent(ACCESS_PATH, k -> BaseUtils.getBaseDir() + "/logs");
+    }
+
     /***
      * 在装载命令参数时优先命令参数
      * @param commandParams 命令参数
@@ -246,6 +264,26 @@ public abstract class BaseApplication{
         List<String> paramList = new ArrayList<>();
         setParam(paramMap, paramList);
         return paramList.toArray(new String[paramList.size()]);
+    }
+
+    /***
+     * 启动参数覆盖原来的参数，并装载启动参数
+     * @param active 环境
+     * @param args
+     * @return
+     */
+    public List<String> getParamList(String active, String... args){
+        List<String> list = new ArrayList<>();
+        Map<String, String> paramMap = new HashMap<>();
+        for(String arg : args){
+            this.paramToMap(arg, paramMap);
+        }
+        String profiles = paramMap.get(SPRING_PROFILES_ACTIVE);
+        if(BaseUtils.isBlank(profiles)){
+            paramMap.put(SPRING_PROFILES_ACTIVE, active);
+        }
+        this.setParam(paramMap, list);
+        return list;
     }
 }
 

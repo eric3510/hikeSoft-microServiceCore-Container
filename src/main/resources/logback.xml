@@ -20,6 +20,20 @@
         </encoder>
     </appender>
 
+    <appender name="core-log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>logs/core-log.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/core-log.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
     <appender name="db1-log" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>logs/db1-log.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -51,6 +65,10 @@
     <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
+
+    <logger name="org.springframework.boot.container.core" level="INFO">
+        <appender-ref ref="core-log" />
+    </logger>
 
     <logger name="txj.server" level="STDOUT">
         <appender-ref ref="server-log"/>
