@@ -10,9 +10,27 @@ import lombok.Data;
 @Data
 public class ServerResponse{
     public final static int SUCCESS = 0;
-    public final static int ERROR_NETWORK = 1;
+
+    /***
+     * 操作失败
+     */
+    public final static int ERROR = -1;
+
+    /***
+     * 业务异常
+     */
+    public final static int ERROR_BBUSINESS = 1;
+
+    /***
+     * 服务错误
+     */
     public final static int ERROR_SERVER = 2;
-    public final static int ERROR_BBUSINESS = 3;
+
+    /***
+     * 网络错误
+     */
+    public final static int ERROR_NETWORK = 3;
+
     public final static String SUCCESS_MSG = "操作成功";
     public final static String ERROR_MSG = "操作失败";
 
@@ -44,5 +62,21 @@ public class ServerResponse{
 
     public void setData(Object data){
         this.data = data;
+    }
+
+    public void setSuccess(Object data){
+        this.code = SUCCESS;
+        this.msg = SUCCESS_MSG;
+        this.data = data;
+    }
+
+    public void setSuccess(){
+        this.code = SUCCESS;
+        this.msg = SUCCESS_MSG;
+    }
+
+    public void setError(){
+        this.code = ERROR;
+        this.msg = ERROR_MSG;
     }
 }
