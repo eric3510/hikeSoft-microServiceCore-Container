@@ -7,8 +7,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.container.core.configs.JedisConfig;
 import org.springframework.boot.container.core.configs.StartUpConfig;
+import org.springframework.boot.container.core.constant.url.mathod.UrlForMathod;
+import org.springframework.boot.container.core.constant.url.mathod.UrlForMathodUtils;
+import org.springframework.boot.container.core.message.queue.receiver.Receiver;
 import org.springframework.boot.container.core.service.impl.Db1ServiceImpl;
-import org.springframework.boot.container.core.service.impl.Db2ServiceImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -25,13 +27,13 @@ public class Init implements ApplicationRunner{
     private Db1ServiceImpl db1ServiceImpl;
 
     @Autowired
-    private Db2ServiceImpl db2ServiceImpl;
-
-    @Autowired
     private JedisConfig jedisConfig;
 
     @Autowired
     private StartUpConfig startUpConfig;
+
+    @Autowired
+    private UrlForMathod urlForMathod;
 
     @Override
     public void run(ApplicationArguments args) throws Exception{
@@ -56,12 +58,18 @@ public class Init implements ApplicationRunner{
         //创建api
         DocApi.createApi(System.getProperty("user.dir"));
 
+        //初始化url与controller的对应关系
+        urlForMathod.init();
+
+        //启动消息监听者(必须在url for mehtod 初始化成功后进行)
+        Receiver receiver = new Receiver();
+        receiver.rabbitListener();
+        logger.info("消息监听者启动成功");
         logger.info("服务启动成功");
     }
 
     private void setMapper(){
         db1ServiceImpl.setBaseMapper();
-        db2ServiceImpl.setBaseMapper();
     }
 
     /***

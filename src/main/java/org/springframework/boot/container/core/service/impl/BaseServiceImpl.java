@@ -24,20 +24,10 @@ public class BaseServiceImpl implements BaseService{
     private Db1Service db1Service;
 
     @Autowired
-    private Db2Service db2Service;
-
-    @Autowired
     private CacheService cacheService;
-
-//    @Autowired
-//    private ServiceReference serviceReference;
 
     public Db1Service getDb1Dao(){
         return this.db1Service;
-    }
-
-    public Db2Service getDb2Dao(){
-        return this.db2Service;
     }
 
     public DaoMongoService getMongo(){
@@ -51,8 +41,4 @@ public class BaseServiceImpl implements BaseService{
     public JedisPool getCache(){
         return cacheService.getJedisPool();
     }
-
-//    public ServiceReference getServiceReference(){
-//        return serviceReference;
-//    }
 }

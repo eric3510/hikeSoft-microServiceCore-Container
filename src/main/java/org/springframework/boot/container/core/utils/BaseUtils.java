@@ -4,12 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.container.core.SpringContext;
+import org.springframework.boot.container.core.pojo.AsyncDTO;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.util.ClassUtils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -2440,13 +2440,13 @@ public final class BaseUtils{
          * @return [true:存在], [false:不存在]
          */
         public static boolean isKeyToMapBlank(Object key, Map<? extends Object, Object> map){
-            return map.get(key) == null ? false : true;
+            return map.get(key) != null;
         }
 
-        public Map<Object, Object> putMap(){
-            return null;
-        }
+
     }
+
+
 
     /**
      * @author 王强 eric3510@foxmail.com
@@ -2844,12 +2844,75 @@ public final class BaseUtils{
         }
     }
 
+    public static class Serialization{
+        /***
+         * 字节码转化为对象
+         * @param objBytes
+         * @return
+         * @throws Exception
+         */
+        public static Object getObjectFromBytes(byte[] objBytes) throws Exception {
+            if (objBytes == null || objBytes.length == 0) {
+                return null;
+            }
+            ByteArrayInputStream bi = new ByteArrayInputStream(objBytes);
+            ObjectInputStream oi = new ObjectInputStream(bi);
+            return oi.readObject();
+        }
+
+        /***
+         * 序列化对象
+         * @param obj obj
+         * @return
+         * @throws Exception
+         */
+        public static byte[] getBytesFromObject(Serializable obj){
+            if(obj == null){
+                return null;
+            }
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();
+            ObjectOutputStream oo = null;
+            try{
+                oo = new ObjectOutputStream(bo);
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            try{
+                oo.writeObject(obj);
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            return bo.toByteArray();
+        }
+    }
+
     public static String getBaseDir(){
         return System.getProperty("user.dir");
     }
 
+    public static class Reflection{
+    }
+
     public static void main(String[] args){
-        String path = BaseUtils.getBaseDir();
-        System.out.println(path);
+        Class c = AsyncDTO.class;
+        try{
+            Method method = c.getMethod("demo", String.class, Map.class, Integer.class);
+            Class[] cs = method.getParameterTypes();
+
+            for(Class cla : cs){
+                System.out.println(cla.getName());
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
+
+
+
+
+
+
+
+
+
