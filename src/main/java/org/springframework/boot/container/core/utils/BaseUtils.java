@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.container.core.SpringContext;
-import org.springframework.boot.container.core.pojo.AsyncDTO;
 import org.springframework.cglib.beans.BeanCopier;
-import org.springframework.util.ClassUtils;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -24,6 +21,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -2842,6 +2840,15 @@ public final class BaseUtils{
             }
             return null;
         }
+
+        /***
+         * 计算两个时间相差的秒数
+         * @param startDate
+         * @return
+         */
+        public static long calLastedTime(Date startDate){
+            return TimeUnit.MILLISECONDS.toSeconds(new Date().getTime() - startDate.getTime());
+        }
     }
 
     public static class Serialization{
@@ -2891,19 +2898,31 @@ public final class BaseUtils{
     }
 
     public static class Reflection{
-    }
-
-    public static void main(String[] args){
-        Class c = AsyncDTO.class;
-        try{
-            Method method = c.getMethod("demo", String.class, Map.class, Integer.class);
-            Class[] cs = method.getParameterTypes();
-
-            for(Class cla : cs){
-                System.out.println(cla.getName());
+        /***
+         * 将map中的key value复制到Class实例化出来的对象中
+         * @param map
+         * @param pojoClass
+         * @return
+         */
+        public static Object mapToPojo(Map<String, Object> map, Class pojoClass){
+            Field[] fields = pojoClass.getDeclaredFields();
+            Object pojo = null;
+            try{
+                pojo = pojoClass.newInstance();
+            }catch(InstantiationException e){
+                e.printStackTrace();
+            }catch(IllegalAccessException e){
+                e.printStackTrace();
             }
-        }catch(Exception e){
-            e.printStackTrace();
+            for(Field field : fields){
+                String fieldName = field.getName();
+                try{
+                    pojoClass.getMethod("set" + StringUtilsSon.firstLetterUpperCase(fieldName), field.getType()).invoke(pojo, map.get(fieldName));
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+            return pojo;
         }
     }
 }

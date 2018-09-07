@@ -1,4 +1,4 @@
-package org.springframework.boot.container.core.annotation;
+package org.springframework.boot.container.core.annotation.micro;
 
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -9,10 +9,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import static org.springframework.boot.container.core.annotation.micro.ComponentScanConstant.CONTAINER_CORE;
+import static org.springframework.boot.container.core.annotation.micro.ComponentScanConstant.MICROSERVICE_SERVER;
+
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @EnableZuulProxy
 @SpringCloudApplication
-@ComponentScan(basePackages = {"org.springframework.boot.container.core","microservice.server"})
+@ComponentScan(basePackages = {CONTAINER_CORE, MICROSERVICE_SERVER})
 public @interface ZuulServer{
 }

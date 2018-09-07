@@ -1,4 +1,4 @@
-package org.springframework.boot.container.core.annotation;
+package org.springframework.boot.container.core.annotation.micro;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -15,6 +15,14 @@ import java.lang.annotation.Target;
 @EnableScheduling
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan(basePackages = {"org.springframework.boot.container.core","txj.server"})
-public @interface MicroServer{
+@ComponentScan(basePackages = {
+        ComponentScanConstant.CONTAINER_CORE,
+        ComponentScanConstant.TXJ_SERVER,
+        ComponentScanConstant.TASK_SCHEDULING_CONFIG_SERVER,
+        ComponentScanConstant.STORAGE_SERVER,
+        ComponentScanConstant.TASK_RELEASE_SERVER,
+        ComponentScanConstant.INIT,
+        ComponentScanConstant.CLOCK_SERVER
+})
+public @interface TaskStorageServer{
 }
