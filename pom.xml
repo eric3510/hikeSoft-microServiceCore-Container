@@ -152,27 +152,27 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>public</id>
-            <name>remote-public</name>
-            <url>http://nexus.hushijie.com.cn/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-            <layout>default</layout>
-        </repository>
-    </repositories>
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>public</id>-->
+            <!--<name>remote-public</name>-->
+            <!--<url>http://nexus.hushijie.com.cn/nexus/content/groups/public/</url>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+                <!--<updatePolicy>never</updatePolicy>-->
+            <!--</releases>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+                <!--<updatePolicy>never</updatePolicy>-->
+            <!--</snapshots>-->
+            <!--<layout>default</layout>-->
+        <!--</repository>-->
+    <!--</repositories>-->
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>1</id>
-            <url>http://nexus.hushijie.com.cn/nexus/content/repositories/1</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <!--<distributionManagement>-->
+        <!--<snapshotRepository>-->
+            <!--<id>1</id>-->
+            <!--<url>http://nexus.hushijie.com.cn/nexus/content/repositories/1</url>-->
+        <!--</snapshotRepository>-->
+    <!--</distributionManagement>-->
 </project>
