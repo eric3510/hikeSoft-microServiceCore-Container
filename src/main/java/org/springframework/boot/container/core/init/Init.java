@@ -8,7 +8,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.container.core.configs.JedisConfig;
 import org.springframework.boot.container.core.configs.StartUpConfig;
 import org.springframework.boot.container.core.service.impl.Db1ServiceImpl;
-import org.springframework.boot.container.core.service.impl.Db2ServiceImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
