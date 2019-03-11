@@ -152,27 +152,16 @@
         </dependency>
     </dependencies>
 
-    <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>public</id>-->
-            <!--<name>remote-public</name>-->
-            <!--<url>http://nexus.hushijie.com.cn/nexus/content/groups/public/</url>-->
-            <!--<releases>-->
-                <!--<enabled>true</enabled>-->
-                <!--<updatePolicy>never</updatePolicy>-->
-            <!--</releases>-->
-            <!--<snapshots>-->
-                <!--<enabled>true</enabled>-->
-                <!--<updatePolicy>never</updatePolicy>-->
-            <!--</snapshots>-->
-            <!--<layout>default</layout>-->
-        <!--</repository>-->
-    <!--</repositories>-->
-
-    <!--<distributionManagement>-->
-        <!--<snapshotRepository>-->
-            <!--<id>1</id>-->
-            <!--<url>http://nexus.hushijie.com.cn/nexus/content/repositories/1</url>-->
-        <!--</snapshotRepository>-->
-    <!--</distributionManagement>-->
+    <distributionManagement>
+        <repository>
+            <id>tzlb-release</id>
+            <name>Release Repository of tzlb</name>
+            <url>http://211.159.176.102:8081/repository/tzlb-release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>tzlb-snapshot</id>
+            <name>Snapshot Repository of tzlb</name>
+            <url>http://211.159.176.102:8081/repository/tzlb-snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

@@ -1,0 +1,99 @@
+{
+  "groups": [
+    {
+      "name": "redis-config",
+      "type": "org.springframework.boot.container.core.configs.JedisConfig",
+      "sourceType": "org.springframework.boot.container.core.configs.JedisConfig"
+    },
+    {
+      "name": "spring.datasource.db1",
+      "type": "javax.sql.DataSource",
+      "sourceType": "org.springframework.boot.container.core.configs.Db1Config",
+      "sourceMethod": "testDataSource()"
+    },
+    {
+      "name": "spring.datasource.db2",
+      "type": "javax.sql.DataSource",
+      "sourceType": "org.springframework.boot.container.core.configs.Db2Config",
+      "sourceMethod": "testDataSource()"
+    },
+    {
+      "name": "start-up-config",
+      "type": "org.springframework.boot.container.core.configs.StartUpConfig",
+      "sourceType": "org.springframework.boot.container.core.configs.StartUpConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "redis-config.auth",
+      "type": "java.lang.String",
+      "description": "访问密码",
+      "sourceType": "org.springframework.boot.container.core.configs.JedisConfig"
+    },
+    {
+      "name": "redis-config.host",
+      "type": "java.lang.String",
+      "description": "Redis服务器IP",
+      "sourceType": "org.springframework.boot.container.core.configs.JedisConfig"
+    },
+    {
+      "name": "redis-config.jedis-pool",
+      "type": "redis.clients.jedis.JedisPool",
+      "description": "非切片连接池",
+      "sourceType": "org.springframework.boot.container.core.configs.JedisConfig"
+    },
+    {
+      "name": "redis-config.max-active",
+      "type": "java.lang.Integer",
+      "description": "如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。",
+      "sourceType": "org.springframework.boot.container.core.configs.JedisConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "redis-config.max-idle",
+      "type": "java.lang.Integer",
+      "description": "控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。",
+      "sourceType": "org.springframework.boot.container.core.configs.JedisConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "redis-config.max-wait",
+      "type": "java.lang.Integer",
+      "description": "等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException；",
+      "sourceType": "org.springframework.boot.container.core.configs.JedisConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "redis-config.port",
+      "type": "java.lang.Integer",
+      "description": "Redis的端口号",
+      "sourceType": "org.springframework.boot.container.core.configs.JedisConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "redis-config.test-on-borrow",
+      "type": "java.lang.Boolean",
+      "description": "在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；",
+      "sourceType": "org.springframework.boot.container.core.configs.JedisConfig",
+      "defaultValue": false
+    },
+    {
+      "name": "redis-config.time-out",
+      "type": "java.lang.Integer",
+      "description": "过期时间",
+      "sourceType": "org.springframework.boot.container.core.configs.JedisConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "start-up-config.mysql",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.springframework.boot.container.core.configs.StartUpConfig"
+    },
+    {
+      "name": "start-up-config.redis",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.springframework.boot.container.core.configs.StartUpConfig"
+    }
+  ],
+  "hints": []
+}
