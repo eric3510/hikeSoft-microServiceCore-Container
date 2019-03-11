@@ -24,9 +24,6 @@ public class Init implements ApplicationRunner{
     private Db1ServiceImpl db1ServiceImpl;
 
     @Autowired
-    private Db2ServiceImpl db2ServiceImpl;
-
-    @Autowired
     private JedisConfig jedisConfig;
 
     @Autowired
@@ -60,7 +57,6 @@ public class Init implements ApplicationRunner{
 
     private void setMapper(){
         db1ServiceImpl.setBaseMapper();
-        db2ServiceImpl.setBaseMapper();
     }
 
     /***
